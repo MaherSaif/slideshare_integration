@@ -1,4 +1,4 @@
-module ScribdFu
+module SlideshareIntegration
   module Paperclip
 
     module ClassMethods
@@ -16,31 +16,30 @@ module ScribdFu
       end
 
       # Returns a URL for a thumbnail for the attached file object.
-      def thumbnail_url
-        begin
-          (ipaper_document && ipaper_document.thumbnail_url) || attached_file.url(:thumb)
-        rescue
-          raise ScribdFu::ScribdFuError, "The thumbnail doesn't exist."
-        end
-      end
+      # def thumbnail_url
+      #   begin
+      #     (slideshow && ipaper_document.thumbnail_url) || attached_file.url(:thumb)
+      #   rescue
+      #     raise ScribdFu::ScribdFuError, "The thumbnail doesn't exist."
+      #   end
+      # end
 
       # Returns the full filename for the given attribute. If the file is
       # stored on S3, this is a full S3 URI, while it is a full path to the
       # local file if the file is stored locally.
       def file_path
-        if attached_file.options[:storage] == :s3
-          if attached_file.instance_variable_get(:@s3_permissions) == "authenticated-read"
-            return attached_file.expiring_url(60)
-          else
-            path = attached_file.url
-          end
-        else
-          path = attached_file.path
-        end
+        # if attached_file.options[:storage] == :s3
+        #   if attached_file.instance_variable_get(:@s3_permissions) == "authenticated-read"
+        #     return attached_file.expiring_url(60)
+        #   else
+        #     path = attached_file.url
+        #   end
+        # else
+        path = attached_file.path
+        # end
 
-        ScribdFu::strip_cache_string(path)
+        # ScribdFu::strip_cache_string(path)
       end
-
 
       private
 
